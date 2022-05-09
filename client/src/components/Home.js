@@ -65,7 +65,7 @@ const Home = (props) => {
     console.log('on load useeffect '+props.searchTerm);
           // setSearchTerm(props.searchTerm);
     async function fetchData() {
-      console.log("i am here ");
+      console.log("i am here inside the useEffect in Home Component");
       if(props.moodId !== 0){
         await getMoodBasedMovies({
           variables: {
@@ -85,10 +85,10 @@ const Home = (props) => {
       if(props.searchTerm=="") {
         getAllMovies({variables:{"title":props.searchTerm,"pageNum":pageNum}}); 
       }
-      console.log(data);
-      console.log(data1);
-      console.log(data2);
-      console.log(moodData); 
+      console.log("Searched Movie Data", data);
+      console.log("Watched Movie Data", data1);
+      console.log("Saved Movie Data", data2);
+      console.log("Mood Based Movie Data", moodData); 
     }
 		fetchData();
     }	, [props.searchTerm, pageNum, props.moodId]);

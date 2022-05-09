@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import '../App.css';
 import queries from '../queries';
 import {  useParams } from 'react-router-dom';
@@ -11,18 +11,14 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
 import BookmarkRemoveSharpIcon from '@mui/icons-material/BookmarkRemoveSharp';
 import {AuthContext} from '../firebase/Auth';
-import { makeStyles,Box} from '@material-ui/core';
+import { makeStyles} from '@material-ui/core';
 import { Grid } from "@mui/material";
 import noImage from '../img/download.jpeg';
 import { Button } from "@mui/material";
-import { Pagination } from "@mui/material";
 import { Link } from "react-router-dom";
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
+
 
 
 const useStyles = makeStyles({
@@ -62,24 +58,23 @@ const SavedMovies = (props) => {
     const {id}=useParams();
     const {currentUser} = useContext(AuthContext);
 
-    const [getusersavedmovies, {loading, error, data, refetch:refetchSaved}] = useLazyQuery(
-        queries.GET_USER_SAVEDMOVIES,
-        {
-            fetchPolicy:"cache-and-network",
-        }
-      );
-
       const [getmoviesbyIDS, {data: saved_movies}] = useLazyQuery(
         queries.Get_Movies_By_IDS,
         {
-            fetchPolicy:"cache-and-network",
         }
       ); 
+      
+    const [getusersavedmovies, {loading, error, data, refetch:refetchSaved}] = useLazyQuery(
+        queries.GET_USER_SAVEDMOVIES,
+        {
+        }
+      );
 
-      const [removefromSave] = useMutation(queries.REMOVE_SAVEFORLATER)
+      const [removefromSave] = useMutation(queries.REMOVE_SAVEFORLATER, {
+    });
 
       useEffect(() => {
-		console.log('on load useeffect');
+		console.log('on load useeffect1');
         console.log(id);
 		async function fetchData() 
         {
@@ -88,33 +83,14 @@ const SavedMovies = (props) => {
                 console.log(currentUser.email);
                 getusersavedmovies({variables:{userId:currentUser.email}});
                 console.log(data);
-             //   getmoviesbyIDS({variables:{ids:data}});
-              //  console.log(data);
-            }
-		}
-		fetchData();
-
-    }	, [id]);
-
-    useEffect(() => {
-		console.log('on load useeffect');
-        console.log(id);
-		async function fetchData() 
-        {
-            if(currentUser)
-            {
-                console.log(data);
-            const idArray = data?.savedMovies?.map((node)=> node.id)
+                const idArray = data?.savedMovies?.map((node)=> node.id)
             console.log(idArray);
                 getmoviesbyIDS({variables:{ids:idArray}});
-               console.log(data);
-             
             }
 		}
 		fetchData();
 
     }	, [data]);
-
 
     const removeSave=(email,id)=>
     {
@@ -148,22 +124,16 @@ const SavedMovies = (props) => {
               alt={show.title}
             />
               </Link>
-
-
             <CardActions disableSpacing>
                <Button aria-label="Remove saved movie" 
                 onClick={() => {removeSave(currentUser.email,show.id)}}>
                  <BookmarkRemoveSharpIcon/> Remove from Save
                 </Button>
                 
-            </CardActions>
-
-
-         
+            </CardActions>         
               <CardContent>
                 <Typography variant='body2' color='textSecondary' component='span'>
                 {show.plot.replace(regex, '').substring(0, 139) + '...'}
-
                 </Typography>
               </CardContent>
             

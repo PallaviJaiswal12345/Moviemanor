@@ -14,7 +14,7 @@ import {AuthContext} from '../firebase/Auth';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.8),
+  backgroundColor: alpha(theme.palette.common.white, 0.3),
   marginRight: theme.spacing(2),
   marginLeft: 0,
   width: '100%',
@@ -22,6 +22,7 @@ const Search = styled('div')(({ theme }) => ({
     marginLeft: theme.spacing(2),
     width: 'auto',
   },
+  backdropFilter: "blur(30px)",
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -50,12 +51,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const NavDiv = styled("div")(({ theme }) => ({
     display: "flex",
-    margin: "auto",
     width: "auto",
-    maxWidth: 1660,
     height: 122,
-    borderRadius: 30,
-    background: "transparent"
+    backgroundColor: "#000000",
+    boxShadow: '0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);'
 }));
 
 const NavBar = (props) => {
@@ -79,15 +78,17 @@ const NavBar = (props) => {
         if (x) {
             return (
             <div style={{display: "flex"}}>
-                <Search>
+                <Search aria-autocomplete="false" color="#dedede">
                     <SearchIconWrapper>
-                        <SearchIcon />
+                        <SearchIcon sx={{color: "#dedede"}}/>
                     </SearchIconWrapper>
                     <StyledInputBase
                     id="searchInput"
                     placeholder="Search…"
-                    autoComplete="false"
+                    autoComplete="off"
                     inputProps={{ 'aria-label': 'search' }}
+                    sx={{color: "#dedede"}}
+                    value={props.searchTerm}
                     onChange= {(e) => {
                         props.setSearchTerm(e.target.value)
                         console.log(e.target.value);
@@ -95,20 +96,21 @@ const NavBar = (props) => {
                     }}
                     />
                 </Search>
-                <Link to={"/SavedMovies"}>
-                    <IconButton size="large" aria-label={`show ${props.noOfBookmarks} watchlisted movies`} sx={{color: "rgb(52 71 103) !important"}} title="My Watchlist Movies"
-                    onClick={() => {props.setSearchTerm("")}}>
+                <Link to={"/SavedMovies"} onClick={() => {props.setSearchTerm("")}} title="My Saved Movies">
+                    <IconButton size="large" color="secondary" aria-label={`show ${props.noOfBookmarks} watchlisted movies`} title="My Saved Movies">
                         <Badge badgeContent={props.noOfBookmarks} color="error">
                             <BookmarksIcon />
                         </Badge>
                     </IconButton>
+                    <p style={{display: "none"}}>My Saved Movies</p>
                 </Link>
-                <Link to={"/WatchList"} onClick={() => {props.setSearchTerm("")}}>
-                    <IconButton size="large" aria-label={`show ${props.noOfWatchedMovies} watched movies`} sx={{color: "rgb(52 71 103) !important"}} title="My Watched Movies">
+                <Link to={"/WatchList"} onClick={() => {props.setSearchTerm("")}} title="My Watched Movies">
+                    <IconButton size="large" color="secondary" aria-label={`show ${props.noOfWatchedMovies} watched movies`} title="My Watched Movies">
                         <Badge badgeContent={props.noOfWatchedMovies} color="error">
                             <ListAltIcon />
                         </Badge>
                     </IconButton>
+                    <p style={{display: "none"}}>My Watched Movies</p>
                 </Link>
                 <IconButton
                 size="large"
@@ -117,8 +119,8 @@ const NavBar = (props) => {
                 aria-controls={menuId}
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
-                color="inherit"
                 title="Profile"
+                color="secondary"
                 >
                     <AccountCircle />
                 </IconButton>
@@ -154,31 +156,35 @@ const NavBar = (props) => {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
-            sx={{marginTop: "4rem", marginLeft: "6rem"}}
+            sx={{marginTop: "4rem", color: "#202226 !important"}}
         >
         <Link to={"/UserProfile"} sx={{textDecoration: "none"}}>
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem sx={[{color: "#515ce2", fontSize: "20px", backgroundColor: alpha("#fff", 0.3), backdropFilter: "blur(30px)"}, () => ({'&:hover': {textDecoration: "none", backgroundColor: alpha("#515ce2", 0.5)}})]}
+            onClick={handleMenuClose}>Profile</MenuItem>
         </Link>
         <Link to={"/SavedMovies"} sx={{textDecoration: "none"}}>
-            <MenuItem >My Saved Movies</MenuItem>
+            <MenuItem sx={[{color: "#515ce2", fontSize: "20px", backgroundColor: alpha("#fff", 0.3), backdropFilter: "blur(30px)"}, () => ({'&:hover': {textDecoration: "none", backgroundColor: alpha("#515ce2", 0.5)}})]}
+            >My Saved Movies</MenuItem>
         </Link>
         <Link to={"/WatchList"} sx={{textDecoration: "none"}}>
-            <MenuItem >My Watched List</MenuItem>
+            <MenuItem sx={[{color: "#515ce2", fontSize: "20px", backgroundColor: alpha("#fff", 0.3), backdropFilter: "blur(30px)"}, () => ({'&:hover': {textDecoration: "none", backgroundColor: alpha("#515ce2", 0.5)}})]}
+            >My Watched List</MenuItem>
         </Link>
         <Link to={"/"} sx={{textDecoration: "none"}}>
-            <MenuItem onClick={(e) => { 
+            <MenuItem sx={[{color: "#515ce2", fontSize: "20px", backgroundColor: alpha("#fff", 0.3), backdropFilter: "blur(30px)"}, () => ({'&:hover': {textDecoration: "none", backgroundColor: alpha("#515ce2", 0.5)}})]}
+            onClick={(e) => { 
                 e.preventDefault()
                 props.setSearchTerm("")
                 doSignOut() 
                 handleMenuClose()
                 navigate("/")
-                }} >Log out</MenuItem>
+            }} >Log out</MenuItem>
         </Link>
         </Menu>
     );
 
     return (
-        <NavDiv className="navbar" sx={{ backgroundColor: alpha("#FFFFFF", 0.15) }}>
+        <NavDiv className="navbar" >
             <Toolbar sx={{ columnGap: '25rem', justifyContent: "space-evenly" }}>
                 <Typography
                     variant="h6"

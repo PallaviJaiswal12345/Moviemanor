@@ -5,9 +5,13 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
 	button: {
-		color: '#1e8678',
+		color: '#676fe9',
 		fontWeight: 'bold',
-		fontSize: "2rem"
+		fontSize: "2rem",
+        '&:hover': {
+            backgroundColor: "#676fe9",
+            color: "white"
+        }
 	}
 });
 
@@ -186,7 +190,7 @@ const MoodDetector = (props) => {
         props.setPageNum()
     }
     return(
-        <div style={{marginTop: "11rem"}}>
+        <div style={{marginTop: "17rem"}}>
             <Typography variant="h2" component="h1" sx={{color: "#fff", fontWeight: "bold !important"}}>
                 I am feeling...
             </Typography>
@@ -200,7 +204,7 @@ const MoodDetector = (props) => {
             {neutralMoods && neutralMood()}
             <br />
             <br />
-            {backOption && <Button sx={{fontSize: "1rem"}} onClick={(e) => {
+            {backOption && <Button sx={{fontSize: "1rem", color: "#6f9ce6"}} onClick={(e) => {
                 e.preventDefault()
                 setSadMoods(false)
                 setAngryMoods(false)

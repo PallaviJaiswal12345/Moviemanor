@@ -1,32 +1,24 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useContext} from "react";
 import '../App.css';
 import queries from '../queries';
 import {  useParams } from 'react-router-dom';
-import {useQuery, useMutation, useLazyQuery} from '@apollo/client';
+import { useMutation, useLazyQuery} from '@apollo/client';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import AddIcon from '@mui/icons-material/Add';
 import RemoveCircleOutlineSharpIcon from '@mui/icons-material/RemoveCircleOutlineSharp';
-import BookmarkRemoveSharpIcon from '@mui/icons-material/BookmarkRemoveSharp';
 import {AuthContext} from '../firebase/Auth';
-
-import { makeStyles,Box} from '@material-ui/core';
+import { makeStyles} from '@material-ui/core';
 import { Grid } from "@mui/material";
 import noImage from '../img/download.jpeg';
 import { Button } from "@mui/material";
-import { Pagination } from "@mui/material";
 import { Link } from "react-router-dom";
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
+
 
 const useStyles = makeStyles({
 	card: {
@@ -67,17 +59,13 @@ const WatchList = (props) => {
 
     const [getUserWatchedMovies, {loading, error, data,refetch:refetchWatched}] = useLazyQuery(
         queries.GET_USER_WATCHEDMOVIES,
-        {
-            fetchPolicy:"cache-and-network",
-        }
+        {}
       );
 
 
       const [getmoviesbyIDS, {data: watched_movies}] = useLazyQuery(
         queries.Get_Movies_By_IDS,
-        {
-            fetchPolicy:"cache-and-network",
-        }
+        {}
       );
 
       const [removefromWatchList] = useMutation(queries.REMOVE_FROM_WATCHLIST)
@@ -92,8 +80,6 @@ const WatchList = (props) => {
                 console.log(currentUser.email);
                 getUserWatchedMovies({variables:{userId:currentUser.email}});
                 console.log(data);
-             //   getmoviesbyIDS({variables:{ids:data}});
-              //  console.log(data);
             }
 		}
 		fetchData();

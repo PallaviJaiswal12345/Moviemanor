@@ -490,6 +490,9 @@ const resolvers = {
 
 
           savedMovies: async (_, args) => {
+
+
+            console.log("tesdsdiuyhj");
             const saveForLater = await SaveMovie();
             let array = []
             const find_ids = await saveForLater.find({  userId: args.userId } ).toArray();
@@ -505,6 +508,7 @@ const resolvers = {
         },
   
         moviesByIds:async (_, args) => {
+            console.log("12345");
             let movieArray = []
             for(id in args.ids){
                // console.log(args.ids[id]);

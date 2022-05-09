@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useContext} from "react";
-import Dropzone from 'react-dropzone-uploader'
+import '../App.css';
+// import Dropzone from 'react-dropzone-uploader'
 import {AuthContext} from '../firebase/Auth';
 import { makeStyles } from '@material-ui/core';
 import {Card, CardHeader, CardMedia, CardContent, CardActions, Avatar, Typography, Grid, Button, Pagination} from '@mui/material';
@@ -37,54 +38,105 @@ const useStyles = makeStyles({
 
 
 const UserProfile = () =>{
-    const classes = useStyles();
-    let card=null;
+    // const classes = useStyles();
+    // let card=null;
     const {currentUser} = useContext(AuthContext);
-    console.log(currentUser);
+    // console.log(currentUser);
     const email = currentUser.email || "Email not found";
     const name = currentUser.displayName || "Name not found"
     const photoURL = currentUser.photoURL || noImage
-    return (
+    // return (
        
-        <div style={{color:"white", justifyContent: "center"}}>
-        <Grid item key={email} sx={{paddingLeft: "0px"}}>
-        <Card  className={classes.card} sx={{ maxWidth: 345 }} >
+    //     <div style={{color:"white", justifyContent: "center"}}>
+    //     <Grid item key={email} sx={{paddingLeft: "0px"}}>
+    //     <Card  className={classes.card} sx={{ maxWidth: 345 }} >
         
-            <CardHeader 
-              avatar={
-                <Avatar sx={{ bgcolor: "#e72400" }} aria-label="recipe">
-                  {name.charAt(0)}
-                </Avatar>
-              }
-              title={name}
-            />
-            <CardMedia
-              component="img"
-              height="300"
-              width="300"
-              image={photoURL }
-              alt={name}
-            />
+    //         <CardHeader 
+    //           avatar={
+    //             <Avatar sx={{ bgcolor: "#e72400" }} aria-label="recipe">
+    //               {name.charAt(0)}
+    //             </Avatar>
+    //           }
+    //           title={name}
+    //         />
+    //         <CardMedia
+    //           component="img"
+    //           height="300"
+    //           width="300"
+    //           image={photoURL }
+    //           alt={name}
+    //         />
               
         
          
-              <CardContent>
-                <Typography variant='body2' color='textSecondary' component='span'>
-                {email}
+    //           <CardContent>
+    //             <Typography variant='body2' color='textSecondary' component='span'>
+    //             {email}
 
-                </Typography>
-              </CardContent>
+    //             </Typography>
+    //           </CardContent>
             
-        </Card>
-        <br></br>
-      </Grid>
+    //     </Card>
+    //     <br></br>
+    //   </Grid>
 
-        </div>
+    //     </div>
        
         
 
 
-    )
+    // )
+
+      return (
+        <div style={{marginTop: "5rem"}}>
+          <div className="container">
+            <div className="main-body">
+              <div className="row gutters-sm">
+                <div className="col-md-4 mb-3">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="d-flex flex-column align-items-center text-center">
+                        <img
+                          src={photoURL}
+                          alt="Admin"
+                          className="rounded-circle"
+                          width="150"
+                        />
+                        <div className="mt-3">
+                          <h4> {name} </h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-8">
+                  <div className="card mb-3">
+                    <div className="card-body">
+                      <div className="row">
+                       
+                          <h6 className="mb-0">Name</h6>
+                        
+                        <div className="col-sm-9">{name}</div>
+                      </div>
+                      <hr />
+                      <div className="row">
+                      
+                          <h6 className="mb-0">Email</h6>
+                   
+                        <div className="col-sm-9">
+                         {email}
+                        </div>
+                      </div>
+                      <hr />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      );
+    
 }
 
 export default UserProfile
